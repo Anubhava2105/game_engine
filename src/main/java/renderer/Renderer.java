@@ -39,6 +39,7 @@ public class Renderer {
     }
 
     public void render(){
+//        System.out.println("Number of batches: " + batches.size());
         for(RenderBatch batch:batches){
             batch.render();
         }

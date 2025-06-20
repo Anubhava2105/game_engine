@@ -13,7 +13,7 @@ public class GameObject {
     public GameObject(String name,Transform transform){
         this.name=name;
         this.components=new ArrayList<Component>();
-        this.transform=new Transform();
+        this.transform=transform;
     }
 
     public <T extends Component> T getComponent(Class<T> componentClass){

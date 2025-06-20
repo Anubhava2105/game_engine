@@ -164,4 +164,7 @@ public class Shader {
         glUniform1iv(varLocation, array);
     }
 
+    public int getShaderProgramId() {
+        return shaderProgramId;
+    }
 }

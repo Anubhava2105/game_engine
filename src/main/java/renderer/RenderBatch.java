@@ -2,6 +2,7 @@ package renderer;
 
 import components.SpriteRenderer;
 import jade.Window;
+import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import util.AssetPool;
 
@@ -47,7 +48,7 @@ public class RenderBatch {
 
         vboId=glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER,vboId);
-        glBufferData(GL_ARRAY_BUFFER, (long) vertices.length * Float.BYTES,GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER,  vertices.length * Float.BYTES,GL_DYNAMIC_DRAW);
 
         int eboId=glGenBuffers();
         int []indices=generateIndices();
@@ -78,13 +79,26 @@ public class RenderBatch {
 
         //use shader
         shader.use();
-        shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
-        shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
+        int projectionLocation = glGetUniformLocation(shader.getShaderProgramId(), "uProjection");
+        int viewLocation = glGetUniformLocation(shader.getShaderProgramId(), "uView");
+        if (projectionLocation == -1 || viewLocation == -1) {
+            System.err.println("Failed to locate uniforms in shader");
+            return;
+        }
+        //System.out.println("Shader uniform locations - Projection: " + projectionLocation + ", View: " + viewLocation);
+
+        // Debug prints
+        Matrix4f proj = Window.getScene().camera().getProjectionMatrix();
+        Matrix4f view = Window.getScene().camera().getViewMatrix();
+        shader.uploadMat4f("uProjection", proj);
+        shader.uploadMat4f("uView", view);
+
 
         glBindVertexArray(vaoId);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glDrawElements(GL_TRIANGLES, this.numSprites*6 , GL_UNSIGNED_INT, 0);
+        //System.out.println("Rendering batch with " + this.numSprites + " sprites");
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
@@ -109,8 +123,8 @@ public class RenderBatch {
                 yAdd=1.0f;
             }
 
-            vertices[offset]=sprite.gameObject.transform.position.x+(xAdd *sprite.gameObject.transform.scale.x);
-            vertices[offset+1]=sprite.gameObject.transform.position.y+(yAdd *sprite.gameObject.transform.scale.y);
+            vertices[offset]=sprite.gameObject.transform.position.x+(xAdd * sprite.gameObject.transform.scale.x);
+            vertices[offset+1]=sprite.gameObject.transform.position.y+(yAdd * sprite.gameObject.transform.scale.y);
 
             vertices[offset+2]=color.x;
             vertices[offset+3]=color.y;
@@ -119,6 +133,9 @@ public class RenderBatch {
 
             offset+=VERTEX_SIZE;
         }
+        //debugging
+//        System.out.println("Loading vertices for sprite " + index + " at position: " +
+//                sprite.gameObject.transform.position);
 
     }
     private int[] generateIndices(){

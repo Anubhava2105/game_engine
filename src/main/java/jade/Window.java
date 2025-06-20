@@ -28,7 +28,7 @@ public class Window {
         this.r=1.0f;
         this.g=1.0f;
         this.b=1.0f;
-        this.a=0.0f;
+        this.a=1.0f;
     }
     public static void changeScene(int newScene){
         switch(newScene){

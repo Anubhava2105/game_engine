@@ -17,7 +17,7 @@ public class Transform {
     }
 
     public void init(Vector2f position,Vector2f scale){
-        this.position=position;
-        this.scale=scale;
+        this.position=new Vector2f(position.x,position.y);
+        this.scale=new Vector2f(scale.x,scale.y);
     }
 }
