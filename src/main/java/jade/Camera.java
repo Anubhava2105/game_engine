@@ -22,7 +22,7 @@ public class Camera {
         Vector3f cameraUp=new Vector3f(0.0f,1.0f,0.0f);
         this.viewMatrix.identity();
         this.viewMatrix=viewMatrix.lookAt(new Vector3f(position.x,position.y,20.0f),cameraFront.add(position.x,position.y,0.0f),cameraUp);
-        System.out.println("Camera Position: " + position.x + ", " + position.y);
+//        System.out.println("Camera Position: " + position.x + ", " + position.y);
         return this.viewMatrix;
     }
     public Matrix4f getProjectionMatrix(){
