@@ -23,10 +23,10 @@ public class LevelEditorScene extends Scene{
         loadResources();
         this.camera=new Camera(new Vector2f(-250,0));
         sprites=AssetPool.getSpriteSheet("assets/images/spritesheet.png");
-        obj1=new GameObject("Object 1",new Transform(new Vector2f(100,100),new Vector2f(256,256)));
+        obj1=new GameObject("Object 1",new Transform(new Vector2f(200,100),new Vector2f(256,256)),2);
         obj1.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("assets/images/blendImage1.png"))));
         this.addGameObjectToScene(obj1);
-        obj2=new GameObject("Object 2",new Transform(new Vector2f(400,100),new Vector2f(256,256)));
+        obj2=new GameObject("Object 2",new Transform(new Vector2f(400,100),new Vector2f(256,256)),-1);
         obj2.addComponent(new SpriteRenderer(new Sprite(AssetPool.getTexture("assets/images/blendImage2.png"))));
         this.addGameObjectToScene(obj2);
     }
